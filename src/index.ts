@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes";
 import productRoute from "./routes/productRoute"
 import { seedInitialProducts } from "./services/productService";
+import cartRoute from "./routes/cartRoute";
 const app = express();
 const port = 3001;
 //built in middleware to convert json format to be added in request.body
@@ -18,6 +19,7 @@ seedInitialProducts();
 
 app.use('/user',userRoutes);
 app.use('/products',productRoute);
+app.use('/cart',cartRoute);
 
 app.listen(port,()=>{
     console.log(`Server is running at http://localhost:${port}`)
