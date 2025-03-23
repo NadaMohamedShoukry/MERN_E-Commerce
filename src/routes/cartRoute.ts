@@ -1,5 +1,5 @@
 import express, { request, response } from "express";
-import { addItemToCart, getActiveCartForUser } from "../services/cartService";
+import { addItemToCart, getActiveCartForUser, updateItemInCart } from "../services/cartService";
 import { ExtendRequest, validateJWT } from "../middlewares/validateJWT";
 const router = express.Router();
 //NOW the request has an object named user and his data.
@@ -11,15 +11,21 @@ router.get('/',validateJWT,async(request:ExtendRequest, response)=>{
     }
     //get active cart for a user.
     // Get the user from jwt , after validating from a middleware.
-    const userId = request.user._id;
+    const userId = request?.user?._id;
     const cart = await getActiveCartForUser({userId});
     response.status(200).send(cart);
 })
 
 router.post('/items',validateJWT,async(req:ExtendRequest,res)=>{
-    const userId=req.user._id;
+    const userId=req?.user?._id;
     const {productId,quantity}=req.body;
     const response= await addItemToCart({userId,productId,quantity})
     res.status(response.statusCode).send(response.data);
 })
+router.put('/items',validateJWT,async(req:ExtendRequest, res)=>{
+    const userId=req?.user?._id;
+    const {productId,quantity}=req.body;
+    const response= await updateItemInCart({userId,productId,quantity});
+    res.status(response.statusCode).send(response.data);
+}) 
 export default router;
