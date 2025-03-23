@@ -3,7 +3,7 @@ import { IProduct } from "./productModel";
 
 //will not use the TS enum , will use an array
 const CartStatusEnum =["active" , "completed"];
-export interface ICartItem extends Document {
+export interface ICartItem {
   product: IProduct;
   unitPrice: number;
   quantity: number;
@@ -11,7 +11,7 @@ export interface ICartItem extends Document {
 
 export interface ICart extends Document {
   userId: ObjectId |string;
-  item: ICartItem[];
+  items: ICartItem[];
   totalAmount: number;
   status: "active" | "completed";
 }
@@ -27,7 +27,7 @@ const cartItemSchema = new Schema<ICartItem>({
 
 const cartSchema =new Schema<ICart>({
     userId:{type: Schema.Types.ObjectId, ref:"User",required:true},
-    item:[cartItemSchema],
+    items:[cartItemSchema],
     totalAmount:{type:Number , required:true },
     status:{type:String , enum:CartStatusEnum ,default:"active"},
 
