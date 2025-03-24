@@ -34,7 +34,7 @@ export const validateJWT = (
   //callback function that will does the validation .
   //payload is the data that we used while generation the token.
   //payload will have te decrypted data.
-  jwt.verify(token, "4SAt8eRJ1rZ06y3qzkczLSzt9C9RpHeg", async (err, payload) => {
+  jwt.verify(token, process.env.JWT_SECRET || " " , async (err, payload) => {
     //the token is from another server(another secret key) OR token my be expired or invalid.
     if (err) {
       res.status(403).send("Invalid Token!");

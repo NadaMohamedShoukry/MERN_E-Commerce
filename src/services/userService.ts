@@ -63,5 +63,5 @@ export const login = async ({ email, password }: LoginParams) => {
 const generateJWT = (data: any) => {
   //sign is the function that will generate the encrypted token.
   //takes options too {expiresIn:'24h'}
-  return jwt.sign(data, "4SAt8eRJ1rZ06y3qzkczLSzt9C9RpHeg");
+  return jwt.sign(data, process.env.JWT_SECRET || "");
 };
