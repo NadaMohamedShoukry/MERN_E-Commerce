@@ -1,5 +1,5 @@
 import express, { request, response } from "express";
-import { addItemToCart, clearCart, deleteItemFromCart, getActiveCartForUser, updateItemInCart } from "../services/cartService";
+import { addItemToCart, checkout, clearCart, deleteItemFromCart, getActiveCartForUser, updateItemInCart } from "../services/cartService";
 import { ExtendRequest, validateJWT } from "../middlewares/validateJWT";
 const router = express.Router();
 //NOW the request has an object named user and his data.
@@ -40,6 +40,13 @@ router.delete('/items/:productId',validateJWT,async(req:ExtendRequest,res)=>{
     //path parameters.
     const {productId}=req.params;
     const response= await deleteItemFromCart({userId,productId});
+    res.status(response.statusCode).send(response.data);
+})
+router.post('/checkout',validateJWT,async(req:ExtendRequest, res)=>{
+    const userId=req?.user?._id;
+    const { address }=req.body;
+
+    const response= await checkout({userId ,address});
     res.status(response.statusCode).send(response.data);
 })
 
