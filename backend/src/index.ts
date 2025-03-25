@@ -5,11 +5,13 @@ import userRoutes from "./routes/userRoutes";
 import productRoute from "./routes/productRoute"
 import { seedInitialProducts } from "./services/productService";
 import cartRoute from "./routes/cartRoute";
+import  cors from  "cors";
 
 //call dotenv
 dotenv.config();
 const app = express();
 const port = 3001;
+app.use(cors());
 //built in middleware to convert json format to be added in request.body
 app.use(express.json())
 
