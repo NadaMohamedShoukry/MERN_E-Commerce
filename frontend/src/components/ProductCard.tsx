@@ -14,7 +14,7 @@ interface Props {
 }
 export default function ProductCard({title,image,price}:Props) {
   return (
-    <Card sx={{backgroundColor:"#C0B9A0" , height:"600px" ,width:"500px",  display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+    <Card sx={{backgroundColor:"#C0B9A0"  ,width:"500px",  display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
       <CardMedia
         component="img"
         alt="device"
