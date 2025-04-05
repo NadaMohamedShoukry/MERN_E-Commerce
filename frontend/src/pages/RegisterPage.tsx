@@ -7,7 +7,9 @@ import Typography from "@mui/material/Typography";
 import { useRef, useState } from "react";
 import welcomeImage from "../assets/undraw_welcome-cats_tw36.svg";
 import { BASE_URL } from "../constants/baseURL";
-import { red } from "@mui/material/colors";
+import { useAuth } from "../context/Auth/AuthContext";
+
+
 const RegisterPage = () => {
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -15,6 +17,7 @@ const RegisterPage = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const [error,setError]=useState("")
 
+  const {login}=useAuth();
   const registerCall = async () => {
 
     try {
@@ -22,6 +25,11 @@ const RegisterPage = () => {
       const lastName = lastNameRef.current?.value;
       const email = emailRef.current?.value;
       const password = passwordRef.current?.value;
+      //validate credentials
+      if(!firstName || !lastName || !email || !password){
+        setError("Check submitted data!")
+        return;
+      }
     
       const response = await fetch(`${BASE_URL}/user/register`, {
         method: "POST",
@@ -36,8 +44,14 @@ const RegisterPage = () => {
           password,
         }),
       });
-      const data = await response.json();
-      console.log(data);
+      const token = await response.json();
+      if(!token){
+        setError("Incorrect Token!");
+        return;
+      }
+
+      login(email,token);
+    
       console.log("Success")
       if(!response.ok){
         setError("Unable to connect! Please, try different credientials!")
