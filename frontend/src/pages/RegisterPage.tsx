@@ -8,6 +8,7 @@ import { useRef, useState } from "react";
 import welcomeImage from "../assets/undraw_welcome-cats_tw36.svg";
 import { BASE_URL } from "../constants/baseURL";
 import { useAuth } from "../context/Auth/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 
 const RegisterPage = () => {
@@ -18,6 +19,7 @@ const RegisterPage = () => {
   const [error,setError]=useState("")
 
   const {login}=useAuth();
+    const navigate=useNavigate();
   const registerCall = async () => {
 
     try {
@@ -51,8 +53,10 @@ const RegisterPage = () => {
       }
 
       login(email,token);
+            
+      navigate("/");
     
-      console.log("Success")
+  
       if(!response.ok){
         setError("Unable to connect! Please, try different credientials!")
       }
