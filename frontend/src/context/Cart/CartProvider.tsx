@@ -24,15 +24,16 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 
       const cartItemsMapped = cart.items.map(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ({ product, quantity }: { product: any; quantity: number }) => ({
+        ({ product, quantity ,unitPrice}: { product: any; quantity: number;unitPrice:number }) => ({
           productId: product._id,
           title: product.title,
           productImage: product.image,
-          unitPrice: product.unitPrice,
+          unitPrice,
           quantity,
         })
       );
       setCartItems([...cartItemsMapped]);
+      setTotalAmount(cart.totalAmount);
     } catch (error) {
       console.log(error);
     }
@@ -68,11 +69,11 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const cartItemsMapped = cart.items.map(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ({ product, quantity }: { product: any; quantity: number }) => ({
+        ({ product, quantity,unitPrice }: { product: any; quantity: number ; unitPrice:number }) => ({
           productId: product._id,
           title: product.title,
           productImage: product.image,
-          unitPrice: product.unitPrice,
+          unitPrice,
           quantity,
         })
       );

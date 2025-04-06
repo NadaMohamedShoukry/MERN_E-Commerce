@@ -31,7 +31,7 @@ const HomePage = () => {
 
   }
   return (
-    <Container sx={{ marginTop: "20px" }}>
+    <Container fixed sx={{ marginTop: "20px" }}>
       <Grid container spacing={3}>
         {products.map((p) => (
           // On larger screens (md={4}), each card will take 1/3 of the row.
