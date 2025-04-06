@@ -83,8 +83,84 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
       console.error(error);
     }
   };
+
+  const updateItemInCart = async(productId:string , quantity:number)=>{
+    try {
+      const response = await fetch(`${BASE_URL}/cart/items`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        //convert the body to string
+        body: JSON.stringify({
+          productId,
+          quantity,
+        }),
+      });
+      if (!response.ok) {
+        setError("Failed to update to Cart!");
+      }
+
+      const cart = await response.json();
+      if (!cart) {
+        setError("Failed to parse cart data!");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const cartItemsMapped = cart.items.map(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ({ product, quantity,unitPrice }: { product: any; quantity: number ; unitPrice:number }) => ({
+          productId: product._id,
+          title: product.title,
+          productImage: product.image,
+          unitPrice,
+          quantity,
+        })
+      );
+      setCartItems([...cartItemsMapped]);
+      setTotalAmount(cart.totalAmount);
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
+  const deleteItemFromCart =async(productId : string)=>{
+    try {
+      const response = await fetch(`${BASE_URL}/cart/items/${productId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      
+      });
+      if (!response.ok) {
+        setError("Failed to delete to Cart!");
+      }
+
+      const cart = await response.json();
+      if (!cart) {
+        setError("Failed to parse cart data!");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const cartItemsMapped = cart.items.map(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ({ product, quantity,unitPrice }: { product: any; quantity: number ; unitPrice:number }) => ({
+          productId: product._id,
+          title: product.title,
+          productImage: product.image,
+          unitPrice,
+          quantity,
+        })
+      );
+      setCartItems([...cartItemsMapped]);
+      setTotalAmount(cart.totalAmount);
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
   return (
-    <CartContext.Provider value={{ cartItems, totalAmount, addItemToCart }}>
+    <CartContext.Provider value={{ cartItems, totalAmount, addItemToCart, updateItemInCart ,deleteItemFromCart }}>
       {/* children is the application wraped inside the provider */}
       {children}
     </CartContext.Provider>

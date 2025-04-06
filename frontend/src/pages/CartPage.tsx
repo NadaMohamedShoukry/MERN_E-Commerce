@@ -8,8 +8,18 @@ import Delete from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 
 const CartPage = () => {
-  const { cartItems, totalAmount } = useCart();
+  const { cartItems, totalAmount, updateItemInCart,deleteItemFromCart } = useCart();
+  const handleQuantity =(productId:string , quantity:number)=>{
+    if(quantity <= 0){
+        return;
+    }
+    updateItemInCart(productId,quantity);
+  }
 
+  const handleDeleteItem =(productId:string)=>{
+    deleteItemFromCart(productId)
+  }
+ 
   return (
     <Container fixed sx={{ marginTop: "20px" }}>
       <Typography variant="h3"  fontStyle='italic' color="#B08463" marginBottom={2}>My Cart </Typography>
@@ -38,17 +48,17 @@ const CartPage = () => {
           <Typography fontWeight="200">
             {item.quantity} * {item.unitPrice} EGP
           </Typography>
-          <IconButton ><Delete /></IconButton>
+          <IconButton onClick={()=>handleDeleteItem(item.productId)}><Delete /></IconButton>
           </Box>
           </Box>
             <Box display='flex' flexDirection='row' gap={2}>
-            <Button sx={{ backgroundColor: "#B08463", color:"white"}}>+</Button>
-            <Button sx={{ backgroundColor: "#B08463" , color:"white"}}>-</Button>
+            <Button onClick={()=>handleQuantity(item.productId , item.quantity+1)} sx={{ backgroundColor: "#B08463", color:"white"}}>+</Button>
+            <Button onClick={()=>handleQuantity(item.productId , item.quantity-1)} sx={{ backgroundColor: "#B08463" , color:"white"}}>-</Button>
             </Box>
         </Box>
       ))}
       <Box>
-        <Typography variant="h5">Total Amount :{totalAmount} EGP</Typography>
+        <Typography variant="h5">Total Amount :{totalAmount.toFixed(2)} EGP</Typography>
       </Box>
       </Box>
     </Container>
