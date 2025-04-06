@@ -20,7 +20,7 @@ router.get("/", validateJWT, async (request: ExtendRequest, response) => {
     //get active cart for a user.
     // Get the user from jwt , after validating from a middleware.
     const userId = request.user._id;
-    const cart = await getActiveCartForUser({ userId });
+    const cart = await getActiveCartForUser({ userId , populateProduct: true});
     response.status(200).send(cart);
   } catch (err) {
     response.status(500).send("Something went wrong!");
