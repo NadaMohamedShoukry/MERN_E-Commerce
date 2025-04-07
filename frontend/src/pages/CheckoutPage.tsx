@@ -16,7 +16,7 @@ const CheckoutPage = () => {
   const addressRef = useRef<HTMLInputElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState("");
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const confirmOrder = async () => {
     try {
       const address = addressRef.current?.value;
@@ -35,7 +35,7 @@ const CheckoutPage = () => {
           address,
         }),
       });
-   
+
       if (!token) {
         setError("Incorrect Token!");
         return;
@@ -81,7 +81,7 @@ const CheckoutPage = () => {
           borderColor: "#714329",
           padding: 2,
           marginBottom: "20px",
-           boxShadow:"0px 0px 7px 0px #714329"
+          boxShadow: "0px 0px 7px 0px #714329",
         }}
       >
         {cartItems.map((item) => (
@@ -131,6 +131,18 @@ const CheckoutPage = () => {
           label="Delivery Address"
           name="address"
           fullWidth
+          sx={{
+              '& label.Mui-focused': {
+                color: '#714329', 
+              },
+            '& .MuiOutlinedInput-root':{
+            "&:hover fieldset": {
+              borderColor: "#714329", 
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#714329', 
+              },
+          }}}
         ></TextField>
         <Box
           sx={{
