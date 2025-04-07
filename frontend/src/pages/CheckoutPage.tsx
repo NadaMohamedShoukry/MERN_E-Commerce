@@ -4,12 +4,54 @@ import Container from "@mui/material/Container";
 import { useCart } from "../context/Cart/CartContext";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { TextField } from "@mui/material";
+import { BASE_URL } from "../constants/baseURL";
+import { useAuth } from "../context/Auth/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
   const { cartItems, totalAmount } = useCart();
+  const { token } = useAuth();
   const addressRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState("");
+  const navigate=useNavigate();
+  const confirmOrder = async () => {
+    try {
+      const address = addressRef.current?.value;
+      if (!address) {
+        setError("Unable to place your order ! Please, Enter your address!");
+        return;
+      }
+      const response = await fetch(`${BASE_URL}/cart/checkout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        //convert the body to string
+        body: JSON.stringify({
+          address,
+        }),
+      });
+   
+      if (!token) {
+        setError("Incorrect Token!");
+        return;
+      }
+
+      if (!response.ok) {
+        setError("Unable to connect! ");
+      }
+      navigate("/order-success");
+    } catch (error) {
+      console.error(error);
+      setError("Something went wrong! try again later");
+    }
+  };
+  const handleConfirmOrder = () => {
+    confirmOrder();
+  };
 
   return (
     <Container fixed sx={{ marginTop: "20px" }}>
@@ -37,7 +79,7 @@ const CheckoutPage = () => {
           borderRadius: 5,
           borderColor: "brown",
           padding: 2,
-          marginBottom:"20px"
+          marginBottom: "20px",
         }}
       >
         {cartItems.map((item) => (
@@ -78,8 +120,10 @@ const CheckoutPage = () => {
           Total Amount :{totalAmount.toFixed(2)} EGP
         </Typography>
       </Box>
-      <Box sx={{display:'flex' , flexDirection:'column' , gap:"7px"}}>
-        <Typography variant= "h6" sx={{ textAlign: "left", color:"	#343434"}}>Enter your Address:</Typography>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "7px" }}>
+        <Typography variant="h6" sx={{ textAlign: "left", color: "	#343434" }}>
+          Enter your Address:
+        </Typography>
         <TextField
           inputRef={addressRef}
           label="Delivery Address"
@@ -96,6 +140,7 @@ const CheckoutPage = () => {
         >
           <Button
             variant="contained"
+            onClick={handleConfirmOrder}
             sx={{
               backgroundColor: "#714329",
               color: "white",
