@@ -7,9 +7,11 @@ import Button from "@mui/material/Button";
 import Delete from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 import emptyCart from '../assets/undraw_empty-cart_574u.svg'
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   const { cartItems, totalAmount, updateItemInCart,deleteItemFromCart,clearCart } = useCart();
+  const navigate = useNavigate();
   const handleQuantity =(productId:string , quantity:number)=>{
     if(quantity <= 0){
         return;
@@ -22,6 +24,9 @@ const CartPage = () => {
   }
   const handleClearCart =()=>{
     clearCart()
+  }
+  const handleCheckout =()=>{
+     navigate("/checkout")
   }
  
   return (
@@ -43,8 +48,8 @@ const CartPage = () => {
           justifyContent="space-between"
           alignItems="center"
           >
-      <Typography variant="h3"  fontStyle='italic' color="#B08463" marginBottom={2}>My Cart </Typography>
-      <IconButton onClick={handleClearCart}><Delete /></IconButton>
+      <Typography variant="h3"  fontStyle='italic' color="#714329" marginBottom={2}>My Cart </Typography>
+      <IconButton onClick={handleClearCart} ><Delete sx={{color:"#714329"}}/></IconButton>
       </Box>
       <Box  display='flex' flexDirection='column' gap={4} >
       {cartItems.map((item) => (
@@ -72,7 +77,7 @@ const CartPage = () => {
           <Typography fontWeight="200">
             {item.quantity} * {item.unitPrice} EGP
           </Typography>
-          <IconButton onClick={()=>handleDeleteItem(item.productId)}><Delete /></IconButton>
+          <IconButton onClick={()=>handleDeleteItem(item.productId)}><Delete sx={{color:"#B08463"}}/></IconButton>
           </Box>
           </Box>
             <Box display='flex' flexDirection='row' gap={2}>
@@ -81,8 +86,9 @@ const CartPage = () => {
             </Box>
         </Box>
       ))}
-      <Box>
+      <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
         <Typography variant="h5">Total Amount :{totalAmount.toFixed(2)} EGP</Typography>
+        <Button variant="contained" onClick={handleCheckout} sx={{ backgroundColor: "#714329", color:"white"}}>Checkout</Button>
       </Box>
       </Box>
       </>
