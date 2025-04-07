@@ -4,16 +4,23 @@ interface AuthContextType {
   email: string | null;
   token: string | null;
   isAuthenticated: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  myOrders : any[];
+  error:string;
   login: (email: string, token: string) => void;
   logout: () => void;
+  getMyOrders : ()=>void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   email: null,
   token: null,
   isAuthenticated: false,
+  myOrders:[],
+  error:"",
   login: () => {},
   logout: () => {},
+  getMyOrders:()=>{}
 });
 
 //Create a custom hook useAuth

@@ -1,6 +1,7 @@
 import { userModel } from "../models/userModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { orderModel } from "../models/orderModel";
 interface RegisterParams {
   firstName: string;
   lastName: string;
@@ -59,6 +60,16 @@ export const login = async ({ email, password }: LoginParams) => {
   }
   return { data: "Invalid email or password!", statusCode: 400 };
 };
+interface MyOrdersParams{
+  userId: string;
+}
+export const getMyOrders = async({userId} : MyOrdersParams)=>{
+  try{
+    return { data : await orderModel.find({userId}), statusCode:200}
+  }catch(err){
+    throw err;
+  }
+}
 //will take any type of data
 const generateJWT = (data: any) => {
   //sign is the function that will generate the encrypted token.

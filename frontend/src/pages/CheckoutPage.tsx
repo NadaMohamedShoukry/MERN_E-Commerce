@@ -14,6 +14,7 @@ const CheckoutPage = () => {
   const { cartItems, totalAmount } = useCart();
   const { token } = useAuth();
   const addressRef = useRef<HTMLInputElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState("");
   const navigate=useNavigate();
   const confirmOrder = async () => {
@@ -62,7 +63,7 @@ const CheckoutPage = () => {
         alignItems="center"
       >
         <Typography
-          variant="h3"
+          variant="h4"
           fontStyle="italic"
           color="#714329"
           marginBottom={2}
@@ -77,9 +78,10 @@ const CheckoutPage = () => {
         sx={{
           border: 1,
           borderRadius: 5,
-          borderColor: "brown",
+          borderColor: "#714329",
           padding: 2,
           marginBottom: "20px",
+           boxShadow:"0px 0px 7px 0px #714329"
         }}
       >
         {cartItems.map((item) => (

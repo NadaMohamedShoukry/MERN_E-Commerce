@@ -6,6 +6,9 @@ const OrderSuccessPage =()=>{
     const handleHomePage =()=>{
         navigate("/");
     }
+    const handleCheckMyOrder =()=>{
+        navigate("/orders");
+    }
     return(
         <Container fixed sx={{marginTop:"50px"}}>
             <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap={3}>
@@ -13,7 +16,7 @@ const OrderSuccessPage =()=>{
         <Typography variant="h5" fontStyle="italic" >Order Placed Successfully </Typography>
         <Typography variant="h6" color="#343434" > We started processing it, continue your shopping </Typography>
         <Box display="flex" flexDirection="row" justifyContent="center" alignItems="center" gap={3}>
-        <Button variant="contained" sx={{backgroundColor:"#714329" }}>Check your Order</Button>
+        <Button onClick={handleCheckMyOrder} variant="contained" sx={{backgroundColor:"#714329" }}>Check your Order</Button>
         <Button onClick={handleHomePage} sx={{color:"#714329" }}>Continue Shopping</Button>
         </Box>
         </Box>

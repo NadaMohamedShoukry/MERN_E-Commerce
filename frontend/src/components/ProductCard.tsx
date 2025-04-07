@@ -18,11 +18,16 @@ export default function ProductCard({ _id, title, image, price }: Props) {
   return (
     <Card
       sx={{
-        backgroundColor: "#C0B9A0",
+        backgroundColor: "#FAF9F6",
         width: "300px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
+        border:1,
+        borderColor:"#F9F6EE",
+        borderRadius:5,
+        boxShadow:"0px 0px 7px 0px #C4A484"
+
       }}
     >
       <CardMedia
